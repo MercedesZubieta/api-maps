@@ -28,14 +28,14 @@ function initMap() {
         {
             position : new google.maps.LatLng(-12.0677349, -77.0967019),
             type : 'purple',
-            title : 'Titulo Purple 1',
-            description : 'Aquí va la información del tooltip'
+            title : 'Título Purple 1',
+            description : '<h4>Título</h4> <p>texto introductorio 1</p>'
         }, 
         {
             position : new google.maps.LatLng(-12.0671961, -77.1178952),
             type : 'purple',
-            title : 'Titulo Purple 1',
-            description : 'Aquí va la información del tooltip'
+            title : 'Título Purple 1',
+            description : '<h4>Título</h4> <p>texto introductorio 2</p>'
         }
     ] ;
 
@@ -46,13 +46,13 @@ function initMap() {
             position: new google.maps.LatLng(-12.0870742, -77.0352733),
             type: 'orange',
             title : 'Titulo Orange 2',
-            description : 'Aquí va la información del tooltip'
+            description : '<h4>Título</h4> <p>texto introductorio 1</p>'
         }, 
         {
             position: new google.maps.LatLng(-12.0956306, -77.0321242),
             type: 'orange',
             title : 'Titulo Purple 2',
-            description : 'Aquí va la información del tooltip'
+            description : '<h4>Título</h4> <p>texto introductorio 2</p>'
         }
     ] ;
 
@@ -68,9 +68,10 @@ function initMap() {
                 return function () {
                     infowindow.setContent(orange[i].description);
                     infowindow.open(map, marker);
+                    map.panTo(marker.getPosition () );
                 }
             })(marker, i));
-             markersOrange.push(marker) ;   
+            markersOrange.push(marker) ;   
         }
     });
 
@@ -86,6 +87,7 @@ function initMap() {
                 return function () {
                     infowindow.setContent(purple[i].description);
                     infowindow.open(map, marker);
+                    map.panTo(marker.getPosition () );
                 }
             })(marker, i));
             
