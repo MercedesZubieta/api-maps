@@ -1,6 +1,7 @@
 var map ;
 var marker;
-var markers = [] ;
+var markersPurple = [] ;
+var markersOrange = [] ;
 var icons ;
 
 function initMap() {
@@ -10,12 +11,15 @@ function initMap() {
         mapTypeId : 'roadmap'
     }) ;
 
+    var infowindow = new google.maps.InfoWindow({});
+
+
     var iconBase = 'img/';
     icons = {
-        parking : {
+        orange : {
           icon : iconBase + 'orange.png'
         } ,
-        info : {
+        purple : {
           icon : iconBase + 'purple.png'
         }
     } ;
@@ -23,59 +27,83 @@ function initMap() {
     purple = [
         {
             position : new google.maps.LatLng(-12.0677349, -77.0967019),
-            type : 'info',
+            type : 'purple',
             title : 'Titulo Purple 1',
             description : 'Aquí va la información del tooltip'
         }, 
         {
             position : new google.maps.LatLng(-12.0671961, -77.1178952),
-            type : 'info',
+            type : 'purple',
             title : 'Titulo Purple 1',
             description : 'Aquí va la información del tooltip'
         }
     ] ;
 
+
+
     orange = [
         {
             position: new google.maps.LatLng(-12.0870742, -77.0352733),
-            type: 'parking',
+            type: 'orange',
             title : 'Titulo Orange 2',
             description : 'Aquí va la información del tooltip'
         }, 
         {
             position: new google.maps.LatLng(-12.0956306, -77.0321242),
-            type: 'parking',
+            type: 'orange',
             title : 'Titulo Purple 2',
             description : 'Aquí va la información del tooltip'
         }
     ] ;
+
+    $("input#btnOrange").click(function () {
+        for (var i = 0; i < orange.length; i++) {
+            marker = new google.maps.Marker({
+                position: orange[i].position,
+                icon : icons[orange[0].type].icon,
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(orange[i].description);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+             markersOrange.push(marker) ;   
+        }
+    });
+
+    $("input#btnPurple").click(function () {
+        for (var i = 0 ; i < purple.length ; i++ ) {
+            marker = new google.maps.Marker({
+                position: purple[i].position,
+                icon : icons[purple[0].type].icon,
+                map: map
+            });
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    infowindow.setContent(purple[i].description);
+                    infowindow.open(map, marker);
+                }
+            })(marker, i));
+            
+             markersPurple.push(marker) ;
+        }
+    });
 }
 
-$("input#btnOrange").click(function () {
-    orange.forEach(function(orange) {
-        var marker = new google.maps.Marker({
-            position : orange.position ,
-            icon : icons[orange.type].icon ,
-            map : map,
-            title: orange.title
-        }) ;
-        markers.push(marker) ;
-    }) ;
-}) ;
-
-$("input#btnPurple").click(function () {
-    purple.forEach(function(purple) {
-        var marker = new google.maps.Marker({
-            position : purple.position ,
-            icon : icons[purple.type].icon ,
-            map : map,
-            title: purple.title
-        }) ;
-    }) ;
-}) ;
-
 $("input#btnDelete").click(function () {
-    for (var i = 0 ; i < markers.length ; i++) {
-        markers[i].setMap(null) ;
+    for (var i = 0 ; i < markersPurple.length ; i++) {
+        markersPurple[i].setMap(null) ;
     }
+}) ;
+
+$("#btnAddPurple").click(function () {
+    google.maps.event.trigger(markersPurple[0], 'click');
+}) ;
+
+$("#btnAddOrange").click(function () {
+    google.maps.event.trigger(markersOrange[1], 'click');
 }) ;
